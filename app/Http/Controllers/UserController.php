@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    //
     public function register(){
         $data['title']='Register';
         return view('user/register',$data);
@@ -43,7 +42,6 @@ class UserController extends Controller
         }
         return back()->withErrors('password', 'Wrong username or password');
     }
-
 
     public function login(){
         return view('user/login');
