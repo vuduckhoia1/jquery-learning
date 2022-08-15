@@ -28,7 +28,7 @@ class UserController extends Controller
             'password'=>Hash::make($request->password)
         ]);
         $user->save();
-        return redirect()->route('login')->with('success', 'registration success. Please login');
+        return redirect()->route('login')->with(['message'=> 'registration success. Please login']);
     }
 
     public function login_action(Request $request){
@@ -40,12 +40,15 @@ class UserController extends Controller
             $request->session()->regenerate();
             return redirect()->intended('/');
         }
-        return back()->withErrors('password', 'Wrong username or password');
+        return back()->withErrors(['msg'=> 'Wrong email or password']);
     }
 
     public function login(){
-        return view('user/login');
+        $data['title']='Login';
+        return view('user/login',$data);
     }
+
+    
 
 
 }
