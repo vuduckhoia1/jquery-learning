@@ -3,9 +3,9 @@
 <div class="row">
     <div class="col-md-6">
         @if($errors->any())
-            @foreach($errors->all() as $err)
-                <p class="alert-danger">{{$err}}</p>
-            @endforeach
+        @foreach($errors->all() as $err)
+        <p class="alert-danger">{{$err}}</p>
+        @endforeach
         @endif
         <form method="post" action="{{route('register.action')}}">
             @csrf
@@ -19,11 +19,11 @@
             </div>
             <div class="mb-3">
                 <label>Password <span class="text-danger">*</span></label>
-                <input type="form-control" name="password">
+                <input type="password" name="password">
             </div>
             <div class="mb-3">
                 <label>Password Confirmation <span class="text-danger">*</span></label>
-                <input type="form-control" name="password_confirmation">
+                <input type="password" name="password_confirmation">
             </div>
             <div class="mb-3">
                 <button class="btn btn-primary">Register</button>

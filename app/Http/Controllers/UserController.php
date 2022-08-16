@@ -6,49 +6,79 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 
 class UserController extends Controller
 {
-    public function register(){
-        $data['title']='Register';
-        return view('user/register',$data);
+    public function register()
+    {
+        $data['title'] = 'Register';
+        return view('user/register', $data);
     }
 
-    public function register_action(Request $request){
+    public function register_action(Request $request)
+    {
         $request->validate([
             'email' => 'required',
             'username' => 'required|unique:table_users',
             'password' => 'required',
-            'password_confirmation'=>'required:same:password'
+            'password_confirmation' => 'required:same:password'
         ]);
-        $user=new User([
-            'email'=>$request->email,
-            'username'=>$request->username,
-            'password'=>Hash::make($request->password)
+        $user = new User([
+            'email' => $request->email,
+            'username' => $request->username,
+            'password' => Hash::make($request->password)
         ]);
         $user->save();
-        return redirect()->route('login')->with(['message'=> 'registration success. Please login']);
+        return redirect()->route('login')->with(['message' => 'registration success. Please login']);
     }
 
-    public function login_action(Request $request){
+    public function login_action(Request $request)
+    {
         $request->validate([
             'email' => 'required',
             'password' => 'required',
         ]);
-        if(Auth::attempt(['email'=>$request->email,'password'=>$request->password])){
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
             return redirect()->intended('/');
         }
-        return back()->withErrors(['msg'=> 'Wrong email or password']);
+        return back()->withErrors(['msg' => 'Wrong email or password']);
     }
 
-    public function login(){
-        $data['title']='Login';
-        return view('user/login',$data);
+    public function login()
+    {
+        $data['title'] = 'Login';
+        return view('user/login', $data);
     }
 
-    
+    public function index()
+    {
+        $data['title'] = 'Users Index';
+        $data['users'] = User::all();
+        return view('user/index', $data);
+    }
 
+    public function edit($id)
+    {
+        $data['title'] = 'Edit User';
+        $data['user'] = User::findOrFail($id);
+        return view('user/update', $data);
+    }
 
+    public function update(Request $request, $id)
+    {
+        $data['user'] = User::findOrFail($id);
+        $pass = Hash::make($request->password);
+
+        User::where(['id' => $id])->update(['email' => $request->email, 'username' => $request->username, 'password' => $pass]);
+        return redirect()->route('user.index')->with('message', 'Update successfully!');
+    }
+
+    public function delete($id){
+        User::where(['id'=>$id])->delete();
+        return redirect()->route('user.index')->with('message', 'Delete successfully!');
+
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +25,10 @@ Route::get('/login',[UserController::class,'login'])->name('login');
 Route::post('/register',[UserController::class,'register_action'])->name('register.action');
 
 Route::post('/login',[UserController::class,'login_action'])->name('login.action');
+
+Route::get('/users/index',[UserController::class,'index'])->name('user.index');
+
+Route::get('users/update/{id}',[UserController::class,'edit']);
+Route::post('users/update/{id}',[UserController::class,'update']);
+
+Route::get('users/delete/{id}',[UserController::class,'delete']);
