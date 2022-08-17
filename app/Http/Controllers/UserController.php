@@ -21,7 +21,7 @@ class UserController extends Controller
     {
         $request->validate([
             'email' => 'required',
-            'username' => 'required|unique:table_users',
+            'username' => 'required|unique:users',
             'password' => 'required',
             'password_confirmation' => 'required:same:password'
         ]);
