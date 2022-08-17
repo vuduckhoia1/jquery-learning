@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Testing\Fluent\Concerns\Has;
 
 
 class UserController extends Controller
@@ -21,7 +20,7 @@ class UserController extends Controller
     {
         $request->validate([
             'email' => 'required',
-            'username' => 'required|unique:table_users',
+            'username' => 'required|unique:users',
             'password' => 'required',
             'password_confirmation' => 'required:same:password'
         ]);
