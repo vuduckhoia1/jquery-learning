@@ -11,4 +11,9 @@ class User extends Authenticatable
     protected $table='users';
     protected $primaryKey='id';
     protected $fillable=['username','email','password'];
+
+    public function categories(){
+        return $this->belongsToMany(Category::class);
+    }
+
 }
