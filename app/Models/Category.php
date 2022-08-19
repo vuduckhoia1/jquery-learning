@@ -13,9 +13,6 @@ class Category extends Model
     protected $primaryKey='id';
     protected $fillable=['name'];
 
-    public function users(){
-        return $this->belongsToMany(User::class);
-    }
 
     public function posts(){
         return $this->hasMany(Post::class);

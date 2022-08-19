@@ -33,4 +33,6 @@ Route::post('users/update/{id}',[UserController::class,'update']);
 
 Route::get('users/delete/{id}',[UserController::class,'delete']);
 
-Route::resource('categories',CategoryController::class)->except(['show']);
+Route::resource('categories',CategoryController::class)->except(['show','create','store']);
+
+Route::resource('posts',PostController::class)->except(['show','create','edit']);
