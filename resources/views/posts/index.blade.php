@@ -1,9 +1,9 @@
 @extends('app')
+
+@extends('shared/navbar')
+
 @section('content')
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link type="text/css" href="css/postcss.css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
 
 <!------ Include the above in your HEAD tag ---------->
 <div class="container">
@@ -72,7 +72,23 @@
                             </div>
                         </div>
                         <div class="col-md-1">
-                            <a href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"></button>
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a data-bs-toggle="modal" data-bs-target="#exampleModal" class="dropdown-item" href="#">Edit post</a></li>
+
+
+                                    <li>
+                                    <form method="post" action="{{route('posts.destroy',$post->id)}}">
+                                        @csrf
+                                        @method('delete')
+                                        <input type="submit" class="dropdown-item" value="Delete">
+                                    </form>
+                                    </li>
+                                </ul>
+                            </div>
+{{--                            <a href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>--}}
                         </div>
                     </div>
                 </section>
@@ -89,7 +105,34 @@
         </div>
     </div>
     <div class="col-md-1"></div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('posts.update',$post->id)}}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        @method('put')
+                        <div>
 
+                            <textarea name="content" class="form-control" cols="104" rows="4" placeholder="What's on your mind?">{{$post->content}}</textarea>
+                            <input type="file" class="form-control" name="image" >
+
+                            <p>Category<input type="text" name="category" class="form-control" value="{{$post->category->name}}"></p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Post">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endforeach
 
