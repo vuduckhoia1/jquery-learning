@@ -1,4 +1,6 @@
 @extends('app')
+@extends('shared/navbar')
+
 @section('content')
     <div class="row">
         <div class="col-md-6">
