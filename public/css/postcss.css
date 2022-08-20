@@ -39,4 +39,19 @@ body {
 .post-footer-comment-wrapper {
     background-color: #F6F7F8;
 }
+.media {
+    display: flex;
+}
 
+.navbar-nav .active {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.55);
+}
+
+
+.content-body {
+    margin-top: 30px;
+}
+
+.container{
+    padding: 20px;
+}

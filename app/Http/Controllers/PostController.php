@@ -23,16 +23,7 @@ class PostController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
 
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -75,27 +66,6 @@ class PostController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -107,6 +77,32 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $request->validate([
+            'content'=>'required_without:image',
+            'image'=>'required_without:content'
+        ]);
+        $category=$request->category;
+        $result=Category::whereName( $category)->get();
+        if($result->isEmpty()) {
+            $category_new = new Category(['name' => $category ]);
+            $category_new->save();
+        }
+        $result2=Category::whereName($category)->get();
+        $cate_id=$result2->first()->id;
+
+        $filename=null;
+        if($request->file('image')){
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('public/Image'), $filename);
+
+        }
+
+//        dd($filename);
+
+        Post::whereId($id)->update(['content'=>$request->content,'images'=>$filename,
+            'user_id'=>auth()->user()->id,'category_id'=>$cate_id]);
+        return back();
     }
 
     /**
@@ -118,5 +114,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+        Post::whereId($id)->delete();
+        return back();
     }
 }

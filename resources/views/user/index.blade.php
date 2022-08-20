@@ -1,19 +1,10 @@
 @extends('app')
 
+@extends('shared/navbar')
+
+
 @section('content')
 
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-</head>
-
-<body>
 @if(session()->has('message'))
     <div class="alert alert-success">
         {{ session()->get('message') }}
@@ -41,9 +32,6 @@
             @endforeach
         </table>
     </div>
-</body>
-
-</html>
 
 
 @endsection
