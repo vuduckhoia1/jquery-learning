@@ -46,6 +46,11 @@ class UserController extends Controller
         return back()->withErrors(['msg' => 'Wrong email or password']);
     }
 
+    public function logout(Request $request) {
+        Auth::logout();
+        return redirect('/login');
+    }
+
     public function login()
     {
         $data['title'] = 'Login';
