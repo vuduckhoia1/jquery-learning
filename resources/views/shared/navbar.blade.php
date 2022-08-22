@@ -22,7 +22,7 @@
         <!-- Right elements -->
         <ul class="navbar-nav flex-row">
             <li class="nav-item me-3 me-lg-1">
-                <a class="nav-link d-sm-flex align-items-sm-center" href="#">
+                <a class="nav-link d-sm-flex align-items-sm-center" href="/users/update/{{\Illuminate\Support\Facades\Auth::user()->id}}">
                     <img src="https://mdbootstrap.com/img/new/avatars/1.jpg" class="rounded-circle" height="22" alt=""
                          loading="lazy" />
                     <strong class="d-none d-sm-block ms-1">{{\Illuminate\Support\Facades\Auth::user()->username}}</strong>
