@@ -1,6 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 use App\Models\User;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-//    return view('posts/index');
-    return view('welcome');
 
-})->name('home');
+Route::get('/',[PostController::class,'index'])->name('home')->middleware('auth')->middleware(['auth', 'verified']);
 
 
 
@@ -32,13 +32,31 @@ Route::post('/register',[UserController::class,'register_action'])->name('regist
 
 Route::post('/login',[UserController::class,'login_action'])->name('login.action');
 
-Route::get('/users/index',[UserController::class,'index'])->name('user.index');
+Route::get('/users/index',[UserController::class,'index'])->name('user.index')->middleware('auth');
 
-Route::get('users/update/{id}',[UserController::class,'edit']);
+Route::get('users/update/{id}',[UserController::class,'edit'])->middleware('auth');
 Route::post('users/update/{id}',[UserController::class,'update']);
 
-Route::get('users/delete/{id}',[UserController::class,'delete']);
+Route::get('users/delete/{id}',[UserController::class,'delete'])->middleware('auth');
 
-Route::resource('categories',CategoryController::class)->except(['show','create','store']);
+Route::resource('categories',CategoryController::class)->except(['show','create','store'])->middleware('auth');
 
-Route::resource('posts',PostController::class)->except(['show','create','edit']);
+Route::resource('posts',PostController::class)->except(['show','create','edit'])->middleware('auth');
+
+Route::get('/email/verify', function () {
+    $data['title']='Mail notification';
+    return view('user.mailer',$data);
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect(\route('home'));
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+

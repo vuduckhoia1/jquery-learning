@@ -16,9 +16,9 @@
 </head>
 <body>
 
-
     <div class="container">
-        <div class="content-body"
+
+        <div class="content-body">
             @yield('content')
         </div>
     </div>
