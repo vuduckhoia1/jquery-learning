@@ -18,7 +18,7 @@ class PostController extends Controller
     {
         //
         $data['title']='New feeds';
-        $data['posts']=Post::all();
+        $data['posts']=Post::paginate(2);
 
         return view('posts/index',$data);
 

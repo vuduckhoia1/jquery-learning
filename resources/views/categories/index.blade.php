@@ -8,30 +8,24 @@
     <div class="container">
 
         <h1>List categories</h1>
-        <table class="table table-bordered table-striped table-hover">
-            <thead>
-                <th>#</th>
-                <th>Name</th>
-                <th></th>
-                <th></th>
-            </thead>
+        <div class="pagination-categories a">
 
-            @foreach($categories as $category)
-            <tr>
-                <td>{{$category->id}}</td>
-                <td>{{$category->name}}</td>
-                <td><a href="categories/{{$category->id}}/edit" class="btn btn-dark">Edit</a></td>
-                <td>
-                    <form method="post" action="{{route('categories.destroy',$category->id)}}">
-                        @csrf
-                        @method('delete')
-                        <input type="submit" class="btn btn-danger" value="Delete">
-                    </form>
-                </td>
+            @include('categories.pagination',['categories'=>$categories])
 
-
-            </tr>
-            @endforeach
-        </table>
+        </div>
     </div>
+    <script>
+        $(document).on('click', '.pagination-categories a', function (e){
+            e.preventDefault();
+            var page=$(this).attr('href').split('page=')[1];
+            getCategories(page);
+        });
+        function getCategories(page){
+            $.ajax({
+                url: '/ajax/categories/?page='+page
+            }).done(function (data){
+                $('.pagination-categories').html(data);
+            });
+        }
+    </script>
 @endsection

@@ -1,5 +1,7 @@
 <?php
 namespace App\Http\Controllers;
+use App\Models\Category;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -60,3 +62,17 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+Route::get('/ajax/posts', function (){
+    $posts=Post::paginate(2);
+    return view('posts.pagination',['posts'=>$posts]);
+});
+
+Route::get('/ajax/categories', function (){
+    $categories=Category::paginate(5);
+    return view('categories.pagination',['categories'=>$categories]);
+});
+
+Route::get('/ajax/users', function (){
+    $users=User::paginate(2);
+    return view('user.pagination',['users'=>$users]);
+});

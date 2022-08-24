@@ -18,7 +18,7 @@ class CategoryController extends Controller
         //
         $data['title']='Categories index';
         $data['user']=User::find(1);
-        $data['categories']=Category::all();
+        $data['categories']=Category::paginate(5);
         return view('categories/index',$data);
     }
 

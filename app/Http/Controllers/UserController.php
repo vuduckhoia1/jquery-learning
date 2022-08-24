@@ -63,7 +63,7 @@ class UserController extends Controller
 
         $this->authorize('index',auth()->user());
         $data['title'] = 'Users Index';
-        $data['users'] = User::all();
+        $data['users'] = User::paginate(2);
         return view('user/index', $data);
     }
 

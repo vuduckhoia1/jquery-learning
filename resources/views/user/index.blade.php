@@ -7,27 +7,26 @@
 
 
     <div class="container">
-        <table class="table table-bordered table-striped table-hover">
-            <thead>
-                <th>#</th>
-                <th>Email</th>
-                <th>Username</th>
-                <th></th>
-                <th></th>
-            </thead>
+        <div class="pagination-user">
+            @include('user.pagination',['users'=>$users])
 
-            @foreach($users as $user)
-            <tr>
-                <td>{{$user->id}}</td>
-                <td>{{$user->email}}</td>
-                <td>{{$user->username}}</td>
-                <td><a href="update/{{$user->id}}" class="btn btn-dark">Edit</a></td>
-                <td><a href="delete/{{$user->id}}" class="btn btn-danger">Delete</a></td>
-
-            </tr>
-            @endforeach
-        </table>
+        </div>
     </div>
+
+    <script>
+        $(document).on('click', '.pagination-user a', function (e){
+            e.preventDefault();
+            var page=$(this).attr('href').split('page=')[1];
+            getUsers(page);
+        });
+        function getUsers(page){
+            $.ajax({
+                url: '/ajax/users/?page='+page
+            }).done(function (data){
+                $('.pagination-user').html(data);
+            });
+        }
+    </script>
 
 
 @endsection
