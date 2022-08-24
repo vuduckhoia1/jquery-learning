@@ -3,6 +3,7 @@
 @extends('shared/navbar')
 
 @section('content')
+@extends('shared/notification')
 
 
 <!------ Include the above in your HEAD tag ---------->

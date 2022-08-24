@@ -1,15 +1,11 @@
 @extends('app')
 
 @extends('shared/navbar')
-
+@extends('shared/notification')
 
 @section('content')
 
-@if(session()->has('message'))
-    <div class="alert alert-success">
-        {{ session()->get('message') }}
-    </div>
-@endif
+
     <div class="container">
         <table class="table table-bordered table-striped table-hover">
             <thead>

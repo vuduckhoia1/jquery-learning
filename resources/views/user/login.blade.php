@@ -19,12 +19,9 @@
 </head>
 
 <body>
-    @if(session()->has('message'))
-    <div class="alert alert-success">
-        {{ session()->get('message') }}
-    </div>
-    @endif
-    <section class="ftco-section">
+@extends('shared/notification')
+
+<section class="ftco-section">
         <div class="container">
 
             <div class="row justify-content-center">

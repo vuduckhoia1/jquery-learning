@@ -2,11 +2,8 @@
 @section('content')
 <div class="row">
     <div class="col-md-6">
-        @if($errors->any())
-        @foreach($errors->all() as $err)
-        <p class="alert-danger">{{$err}}</p>
-        @endforeach
-        @endif
+        @extends('shared/notification')
+
         <form method="post" action="{{route('categories.store')}}">
             @csrf
             <div class="mb-3">

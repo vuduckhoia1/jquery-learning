@@ -2,6 +2,8 @@
 @extends('shared/navbar')
 
 @section('content')
+    @extends('shared/notification')
+
     <div class="row">
         <div class="col-md-6">
             @if($errors->any())
