@@ -60,6 +60,8 @@ class UserController extends Controller
 
     public function index()
     {
+
+        $this->authorize('index',auth()->user());
         $data['title'] = 'Users Index';
         $data['users'] = User::all();
         return view('user/index', $data);
@@ -67,6 +69,11 @@ class UserController extends Controller
 
     public function edit($id)
     {
+//        dd(auth()->user()->role==0||auth()->user()->role==0);
+//        dd(auth()->user()->id==$id);
+        $cnt_user=User::whereId($id)->first();
+//        dd(auth()->user()->id==$cnt_user->id);
+        $this->authorize('edit',$cnt_user);
         $data['title'] = 'Edit User';
         $data['user'] = User::findOrFail($id);
         return view('user/update', $data);
@@ -76,12 +83,15 @@ class UserController extends Controller
     {
         $data['user'] = User::findOrFail($id);
         $pass = Hash::make($request->password);
+        $role=$request->role;
 
-        User::where(['id' => $id])->update(['email' => $request->email, 'username' => $request->username, 'password' => $pass]);
+        User::where(['id' => $id])->update(['email' => $request->email, 'username' => $request->username, 'password' => $pass, 'role' =>$role ]);
+
         return redirect()->route('user.index')->with('message', 'Update successfully!');
     }
 
     public function delete($id){
+        $this->authorize('destroy',auth()->user());
         User::where(['id'=>$id])->delete();
         return redirect()->route('user.index')->with('message', 'Delete successfully!');
 

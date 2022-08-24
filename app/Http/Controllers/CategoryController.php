@@ -33,6 +33,8 @@ class CategoryController extends Controller
     public function edit($id)
     {
         //
+        $category=Category::whereId($id)->first();
+        $this->authorize('edit',$category);
         $data['title']='Edit Category';
         $data['category']=Category::findOrFail($id);
         return view('categories/edit',$data);
@@ -65,6 +67,8 @@ class CategoryController extends Controller
     {
         //
 //        $data['test']=$id;
+        $category=Category::whereId($id)->first();
+        $this->authorize('destroy',$category);
         Category::where(['id'=>$id])->delete();
         return redirect()->route('categories.index')->with(['message'=>'Delete successfully!']);
 //        return view('categories/test',$data);

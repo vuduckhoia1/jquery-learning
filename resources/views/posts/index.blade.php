@@ -76,7 +76,7 @@
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"></button>
 
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a data-bs-toggle="modal" data-bs-target="#exampleModal" class="dropdown-item" href="#">Edit post</a></li>
+                                    <li><a data-bs-toggle="modal" data-bs-target="#exampleModal{{$post->id}}" class="dropdown-item" href="#">Edit post</a></li>
 
 
                                     <li>
@@ -105,7 +105,7 @@
         </div>
     </div>
     <div class="col-md-1"></div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal{{$post->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

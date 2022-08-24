@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -77,6 +78,10 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $post=Post::whereId($id)->first();
+
+
+        $this->authorize('update', $post);
         $request->validate([
             'content'=>'required_without:image',
             'image'=>'required_without:content'
@@ -114,6 +119,9 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+        $post=Post::whereId($id)->first();
+        $this->authorize('destroy', $post);
+
         Post::whereId($id)->delete();
         return back();
     }
