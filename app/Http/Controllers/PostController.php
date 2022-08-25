@@ -24,6 +24,14 @@ class PostController extends Controller
 
     }
 
+    public function query(Request $request){
+        $input = $request->category;
+        $data = Category::select("name")
+            ->where("name", "LIKE", "%{$input}%")->get();
+        return response()->json($data);
+
+    }
+
 
 
     /**

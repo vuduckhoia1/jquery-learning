@@ -76,3 +76,5 @@ Route::get('/ajax/users', function (){
     $users=User::paginate(2);
     return view('user.pagination',['users'=>$users]);
 });
+
+Route::get('/auto-complete-search-query',[PostController::class, 'query'])->name('autocomplete.search.query');

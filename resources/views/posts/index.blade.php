@@ -35,7 +35,7 @@
                             <textarea name="content" class="form-control" cols="104" rows="4" placeholder="What's on your mind?"></textarea>
                             <input type="file" class="form-control" name="image">
 
-                            <p>Category<input type="text" name="category" class="form-control"></p>
+                            <p>Category<input type="text" name="category" class="form-control typeahead"></p>
                         </div>
 
                         <input type="submit" class="btn btn-primary" value="Post">
@@ -52,19 +52,36 @@
     @include('posts.pagination',['posts'=>$posts])
 
 </div>
-<script>
-    $(document).on('click', '.pagination-post a', function (e){
-        e.preventDefault();
-        var page=$(this).attr('href').split('page=')[1];
-        getPosts(page);
-    });
-    function getPosts(page){
-        $.ajax({
-            url: '/ajax/posts/?page='+page
-        }).done(function (data){
-            $('.pagination-post').html(data);
-        });
-    }
-</script>
+@endsection
 
+@section('js')
+    <script>
+        var path="{{route('autocomplete.search.query')}}";
+        $(document).ready(function (){
+            $(document).on('click', '.pagination-post a', function (e){
+                e.preventDefault();
+                var page=$(this).attr('href').split('page=')[1];
+                getPosts(page);
+            });
+
+            $('.typeahead').typeahead({
+                source: function (query, process) {
+                    return $.get(path, {query: query}, function (data) {
+                        return process(data);
+                    });
+                }
+            });
+        });
+
+        function getPosts(page){
+            $.ajax({
+                url: '/ajax/posts/?page='+page
+            }).done(function (data){
+                $('.pagination-post').html(data);
+            });
+        }
+
+
+
+    </script>
 @endsection
