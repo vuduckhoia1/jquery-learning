@@ -50,38 +50,36 @@
 </div>
 <div class="pagination-post">
     @include('posts.pagination',['posts'=>$posts])
-
 </div>
 @endsection
 
 @section('js')
-    <script>
-        var path="{{route('autocomplete.search.query')}}";
-        $(document).ready(function (){
-            $(document).on('click', '.pagination-post a', function (e){
-                e.preventDefault();
-                var page=$(this).attr('href').split('page=')[1];
-                getPosts(page);
-            });
-
-            $('.typeahead').typeahead({
-                source: function (query, process) {
-                    return $.get(path, {query: query}, function (data) {
-                        return process(data);
-                    });
-                }
-            });
+<script>
+    var path = "{{route('autocomplete.search.query')}}";
+    $(document).ready(function() {
+        $(document).on('click', '.pagination-post .pagination-list a', function(e) {
+            e.preventDefault();
+            var page = $(this).attr('href').split('page=')[1];
+            getPosts(page);
         });
 
-        function getPosts(page){
-            $.ajax({
-                url: '/ajax/posts/?page='+page
-            }).done(function (data){
-                $('.pagination-post').html(data);
-            });
-        }
+        $('.typeahead').typeahead({
+            source: function(query, process) {
+                return $.get(path, {
+                    query: query
+                }, function(data) {
+                    return process(data);
+                });
+            }
+        });
+    });
 
-
-
-    </script>
+    function getPosts(page) {
+        $.ajax({
+            url: '/ajax/posts/?page=' + page
+        }).done(function(data) {
+            $('.pagination-post').html(data);
+        });
+    }
+</script>
 @endsection

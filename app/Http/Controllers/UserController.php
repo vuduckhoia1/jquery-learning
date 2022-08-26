@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,6 +93,7 @@ class UserController extends Controller
 
     public function delete($id){
         $this->authorize('destroy',auth()->user());
+        Post::whereUser_id($id)->delete();
         User::where(['id'=>$id])->delete();
         return redirect()->route('user.index')->with('message', 'Delete successfully!');
 

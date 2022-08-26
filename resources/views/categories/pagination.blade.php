@@ -23,4 +23,7 @@
     @endforeach
 
 </table>
-{{ $categories->onEachSide(5)->links() }}
+<div class="pagination-list">
+
+    {{ $categories->onEachSide(5)->links() }}
+</div>

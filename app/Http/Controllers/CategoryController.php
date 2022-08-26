@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -69,7 +70,9 @@ class CategoryController extends Controller
 //        $data['test']=$id;
         $category=Category::whereId($id)->first();
         $this->authorize('destroy',$category);
+        Post::whereCategory_id($id)->delete();
         Category::where(['id'=>$id])->delete();
+
         return redirect()->route('categories.index')->with(['message'=>'Delete successfully!']);
 //        return view('categories/test',$data);
     }
