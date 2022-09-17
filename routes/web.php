@@ -34,7 +34,6 @@ Route::post('/register',[UserController::class,'register_action'])->name('regist
 
 Route::post('/login',[UserController::class,'login_action'])->name('login.action');
 
-Route::get('/users/index',[UserController::class,'index'])->name('user.index')->middleware('auth');
 
 Route::get('users/update/{id}',[UserController::class,'edit'])->middleware('auth');
 Route::post('users/update/{id}',[UserController::class,'update']);
@@ -78,3 +77,16 @@ Route::get('/ajax/users', function (){
 });
 
 Route::get('/auto-complete-search-query',[PostController::class, 'query'])->name('autocomplete.search.query');
+
+Route::get('/admin/login', function(){
+    return view('admin/login/login');
+});
+Route::post('/admin/login',[UserController::class,'login_action_admin'])->name('login.action.admin');
+
+Route::get('/admin/users',[UserController::class, 'index'])->name('users.index');
+
+
+Route::get('/admin/index', [UserController::class, 'index'])->name('admin.index');
+
+Route::get('/admin/users/create', [UserController::class, 'create'])->name('admin.users.create');
+Route::post('/admin/users/create', [UserController::class, 'store'])->name('admin.users.store');

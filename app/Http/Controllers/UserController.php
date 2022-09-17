@@ -48,6 +48,18 @@ class UserController extends Controller
         return back()->withErrors(['msg' => 'Wrong email or password']);
     }
 
+    public function login_action_admin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $request->session()->regenerate();
+            return redirect('/admin_index');
+        }
+        return back()->withErrors(['msg' => 'Wrong email or password']);
+    }
     public function logout(Request $request) {
         Auth::logout();
         return redirect('/login');
@@ -62,10 +74,10 @@ class UserController extends Controller
     public function index()
     {
 
-        $this->authorize('index',auth()->user());
+        // $this->authorize('index',auth()->user());
         $data['title'] = 'Users Index';
-        $data['users'] = User::paginate(2);
-        return view('user/index', $data);
+        $data['users'] = User::all();
+        return view('admin/users', $data);
     }
 
     public function edit($id)
@@ -97,5 +109,24 @@ class UserController extends Controller
         User::where(['id'=>$id])->delete();
         return redirect()->route('user.index')->with('message', 'Delete successfully!');
 
+    }
+
+    public function create(){
+        return view('admin/users/new');
+    }
+
+    public function store(Request $request){
+        $request->validate([
+            'email' => 'required',
+            'username' => 'required|unique:users',
+            'password' => 'required',
+        ]);
+        $user = new User([
+            'email' => $request->email,
+            'username' => $request->username,
+            'password' => Hash::make($request->password)
+        ]);
+        $user->save();
+        return redirect()->route('users.index');
     }
 }
