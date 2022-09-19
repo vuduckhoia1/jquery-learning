@@ -90,3 +90,5 @@ Route::get('/admin/index', [UserController::class, 'index'])->name('admin.index'
 
 Route::get('/admin/users/create', [UserController::class, 'create'])->name('admin.users.create');
 Route::post('/admin/users/create', [UserController::class, 'store'])->name('admin.users.store');
+
+Route::post('/admin/skills/create', [SkillController::class, 'store'])-> name('admin.skills.store');

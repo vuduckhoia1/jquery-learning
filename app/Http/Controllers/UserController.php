@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Post;
+use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +61,8 @@ class UserController extends Controller
         }
         return back()->withErrors(['msg' => 'Wrong email or password']);
     }
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         Auth::logout();
         return redirect('/login');
     }
@@ -82,11 +84,11 @@ class UserController extends Controller
 
     public function edit($id)
     {
-//        dd(auth()->user()->role==0||auth()->user()->role==0);
-//        dd(auth()->user()->id==$id);
-        $cnt_user=User::whereId($id)->first();
-//        dd(auth()->user()->id==$cnt_user->id);
-        $this->authorize('edit',$cnt_user);
+        //        dd(auth()->user()->role==0||auth()->user()->role==0);
+        //        dd(auth()->user()->id==$id);
+        $cnt_user = User::whereId($id)->first();
+        //        dd(auth()->user()->id==$cnt_user->id);
+        $this->authorize('edit', $cnt_user);
         $data['title'] = 'Edit User';
         $data['user'] = User::findOrFail($id);
         return view('user/update', $data);
@@ -96,26 +98,28 @@ class UserController extends Controller
     {
         $data['user'] = User::findOrFail($id);
         $pass = Hash::make($request->password);
-        $role=$request->role;
+        $role = $request->role;
 
-        User::where(['id' => $id])->update(['email' => $request->email, 'username' => $request->username, 'password' => $pass, 'role' =>$role ]);
+        User::where(['id' => $id])->update(['email' => $request->email, 'username' => $request->username, 'password' => $pass, 'role' => $role]);
 
         return redirect()->route('user.index')->with('message', 'Update successfully!');
     }
 
-    public function delete($id){
-        $this->authorize('destroy',auth()->user());
+    public function delete($id)
+    {
+        $this->authorize('destroy', auth()->user());
         Post::whereUser_id($id)->delete();
-        User::where(['id'=>$id])->delete();
+        User::where(['id' => $id])->delete();
         return redirect()->route('user.index')->with('message', 'Delete successfully!');
-
     }
 
-    public function create(){
+    public function create()
+    {
         return view('admin/users/new');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
             'email' => 'required',
             'username' => 'required|unique:users',
@@ -127,6 +131,15 @@ class UserController extends Controller
             'password' => Hash::make($request->password)
         ]);
         $user->save();
+
+        foreach ($request->skills as $skill) {
+
+            $skill_new = new Skill;
+            $skill_new->name = $skill;
+            $skill_new->user_id = $user->id;
+            $skill_new->save();
+        }
+
         return redirect()->route('users.index');
     }
 }
