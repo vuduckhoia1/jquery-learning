@@ -34,7 +34,7 @@
                 </a>
             </li>
             <li class="nav-item dropdown me-3 me-lg-1">
-                <a class="nav-link dropdown-toggle hidden-arrow" href="{{route('user.index')}}" id="navbarDropdownMenuLink" role="button"
+                <a class="nav-link dropdown-toggle hidden-arrow" href="{{route('users.index')}}" id="navbarDropdownMenuLink" role="button"
                    data-mdb-toggle="dropdown" aria-expanded="false">
 
 

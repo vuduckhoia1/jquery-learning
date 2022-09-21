@@ -68,10 +68,7 @@ Route::get('/ajax/posts', function () {
     return view('posts.pagination', ['posts' => $posts]);
 });
 
-Route::get('/ajax/categories', function () {
-    $categories = Category::paginate(5);
-    return view('categories.pagination', ['categories' => $categories]);
-});
+
 
 Route::get('/ajax/users', function () {
     $users = User::paginate(2);

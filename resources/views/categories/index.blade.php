@@ -19,18 +19,18 @@
 
 @section('js')
 <script>
-    $(document).on('click', '.pagination-categories .pagination-list a', function(e) {
-        e.preventDefault();
-        var page = $(this).attr('href').split('page=')[1];
-        getCategories(page);
-    });
+    $(document).ready(function() {
+        $('table').dataTable(
+            {
+                paginate: false,
+                // scrollY: 5
+                  scrollY: 300
 
-    function getCategories(page) {
-        $.ajax({
-            url: '/ajax/categories/?page=' + page
-        }).done(function(data) {
-            $('.pagination-categories').html(data);
-        });
-    }
+            }
+        );
+    });
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
 @endsection

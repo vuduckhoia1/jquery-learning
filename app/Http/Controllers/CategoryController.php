@@ -19,7 +19,7 @@ class CategoryController extends Controller
         //
         $data['title']='Categories index';
         $data['user']=User::find(1);
-        $data['categories']=Category::paginate(5);
+        $data['categories']=Category::all();
         return view('categories/index',$data);
     }
 
