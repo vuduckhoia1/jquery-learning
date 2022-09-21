@@ -57,7 +57,7 @@ class UserController extends Controller
         ]);
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
-            return redirect('/admin_index');
+            return redirect('/admin/index');
         }
         return back()->withErrors(['msg' => 'Wrong email or password']);
     }
@@ -137,6 +137,34 @@ class UserController extends Controller
             $skill_new = new Skill;
             $skill_new->name = $skill;
             $skill_new->user_id = $user->id;
+            $skill_new->save();
+        }
+
+        return redirect()->route('users.index');
+    }
+
+    public function admin_edit($id)
+    {
+        $data['user'] = User::find($id);
+
+        // dd($user);
+        $data['skills'] = $data['user']->skills;
+        
+        return view('admin.users.edit', $data);
+
+    }
+
+    public function admin_update(Request $request, $id){
+        // $user = User::find($id);
+        $pass = Hash::make($request->password);
+        User::where(['id' => $id])->update(['email' => $request->email, 'username' => $request->username, 'password' => $pass]);
+        Skill::whereUser_id($id)->delete();
+        // dd($request);
+        foreach ($request->skills as $skill) {
+
+            $skill_new = new Skill;
+            $skill_new->name = $skill;
+            $skill_new->user_id = $id;
             $skill_new->save();
         }
 

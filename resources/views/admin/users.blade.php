@@ -21,7 +21,7 @@ $roles=[
         <td class="update">{{$user->email}}</td>
         <td class="update">{{$user->username}}</td>
         <td class="update">{{$roles[$user->role]}}</td>
-        <td><a data-id="{{$user->id}}" href="#" class="btn btn-warning edit-btn">Edit</a></td>
+        <td><a href="{{route('admin.users.edit', $user)}}" class="btn btn-warning edit-btn">Edit</a></td>
         <td><a href="#" class="btn btn-danger">Destroy</a></td>
     </tr>
     @endforeach
@@ -29,21 +29,3 @@ $roles=[
 <a href="{{route('admin.users.create')}}" class="btn btn-primary">Create new user</a>
 @endsection
 
-@section('js')
-<script>
-    $('.edit-btn').on('click', function(e) {
-        e.preventDefault();
-        $.fn.editable.defaults.mode = 'inline';
-        var user_id = $(this).parent().parent().data('id');
-        console.log(user_id);
-        editUser(user_id);
-
-    })
-
-    function editUser(id){
-        
-    }
-</script>
-<!-- <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
-<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script> -->
-@endsection
