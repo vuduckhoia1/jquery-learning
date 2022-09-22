@@ -56,7 +56,14 @@
 @section('js')
 <script>
     var path = "{{route('autocomplete.search.query')}}";
+    var delete_url = "{{route('posts.destroy', 'ID')}}";
+    console.log(delete_url);
     $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $(document).on('click', '.pagination-post .pagination-list a', function(e) {
             e.preventDefault();
             var page = $(this).attr('href').split('page=')[1];
@@ -81,5 +88,23 @@
             $('.pagination-post').html(data);
         });
     }
+
+    $('.post-delete-btn').on('click', function(e) {
+
+        e.preventDefault();
+        var post_id = $(this).data('id');
+        // console.log(test);
+        console.log("posts/"+post_id);      
+        $.ajax({
+            url: delete_url.replace('ID', post_id),
+            type: 'delete',
+            success: function() {
+                alert('success')
+            }, 
+            error: function(){
+                alert('failed')
+            }
+        })
+    })
 </script>
 @endsection

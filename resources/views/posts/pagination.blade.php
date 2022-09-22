@@ -31,7 +31,7 @@
 
 
                                     <li>
-                                        <form method="post" action="{{route('posts.destroy',$post->id)}}">
+                                        <form class="post-delete-btn" data-id="{{$post->id}}" method="post" action="{{route('posts.destroy',$post->id)}}">
                                             @csrf
                                             @method('delete')
                                             <input type="submit" class="dropdown-item" value="Delete">

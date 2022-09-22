@@ -131,6 +131,6 @@ class PostController extends Controller
         $this->authorize('destroy', $post);
 
         Post::whereId($id)->delete();
-        return back();
+        return response()->json();
     }
 }
