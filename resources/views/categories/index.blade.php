@@ -22,9 +22,22 @@
     $(document).ready(function() {
         $('table').dataTable(
             {
-                paginate: false,
+                // paginate: false,
                 // scrollY: 5
-                  scrollY: 300
+                //   scrollY: 300
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{route('categories.allCate')}}",
+                    dataType: "json", 
+                    type: "get"
+                },
+
+                columns: [
+                    { "data": "id" },
+                    { "data": "name" },
+                    { "data": "created_at" },
+                ]
 
             }
         );

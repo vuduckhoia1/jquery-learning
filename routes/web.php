@@ -43,6 +43,7 @@ Route::post('users/update/{id}', [UserController::class, 'update']);
 Route::get('users/delete/{id}', [UserController::class, 'delete'])->middleware('auth');
 
 Route::resource('categories', CategoryController::class)->except(['show', 'create', 'store'])->middleware('auth');
+Route::get('allCate', [CategoryController::class, 'allCate'])->name('categories.allCate');
 
 Route::resource('posts', PostController::class)->except(['show', 'create', 'edit'])->middleware('auth');
 
